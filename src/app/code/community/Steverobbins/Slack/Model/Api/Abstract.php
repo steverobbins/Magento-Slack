@@ -132,7 +132,10 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
     protected function _prepareChannels($args)
     {
         $args = isset($args[0]) ? $args[0] : array();
-        $channels = array_flip(Mage::getSingleton('slack/config_settings')->getChannels());
+        $channels = Mage::getSingleton('slack/config_settings')->getChannels();
+        if (is_array($channels)) {
+            $channels = array_flip($channels);
+        }
         if (isset($args['channels'])) {
             if (!is_array($args['channels'])) {
                 $args['channels'] = array($args['channels']);
@@ -147,7 +150,6 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
             $args['channels'] = implode(',', $args['channels']);
         }
         if (isset($args['channel'])) {
-            $channels = array_flip(Mage::getSingleton('slack/config_settings')->getChannels());
             if (isset($channels[$args['channel']])) {
                 $args['channel'] = $channels[$args['channel']];
             }
