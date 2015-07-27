@@ -1,0 +1,47 @@
+<?php
+/**
+ * Slack.com Integration
+ *
+ * PHP Version 5
+ *
+ * @category  Steverobbins
+ * @package   Steverobbins_Slack
+ * @author    Steve Robbins <steve@steverobbins.com>
+ * @copyright Copyright 2015 Steve Robbins (http://steverobbins.com)
+ * @license   http://creativecommons.org/licenses/by/3.0/deed.en_US Creative Commons Attribution 3.0 Unported License
+ */
+
+/**
+ * @var $this Steverobbins_Slack_Block_Adminhtml_System_Config_Channels
+ */
+?>
+<div id="channel-list">
+    <?php echo $this->getListHtml() ?>
+</div>
+<script type="text/javascript">
+    function getSlackChannels() {
+        var elem = $('<?php echo $this->getHtmlId() ?>');
+        new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
+            parameters: {},
+            onSuccess: function(response) {
+                result = '<?php echo $this->__('Channel listing failed. Try again?') ?>';
+                try {
+                    response = response.responseJSON;
+                    if (response.success == 1) {
+                        result = '<?php echo $this->__('Success! Refresh this page to see your updated channel list.') ?>';
+                        elem.removeClassName('fail').addClassName('success')
+                        $('channel-list').update(response.html)
+                    } else {
+                        elem.removeClassName('success').addClassName('fail')
+                    }
+                } catch (e) {
+                    elem.removeClassName('success').addClassName('fail')
+                }
+                $('get_slack_channels').update(result);
+            }
+        });
+    }
+</script>
+<button onclick="javascript:getSlackChannels(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
+    <span><span><span id="get_slack_channels"><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span></span></span>
+</button>

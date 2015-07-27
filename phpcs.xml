@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Slack.com Integration
+ *
+ * @category  Steverobbins
+ * @package   Steverobbins_Slack
+ * @author    Steve Robbins <steve@steverobbins.com>
+ * @copyright Copyright 2015 Steve Robbins (http://steverobbins.com)
+ * @license   http://creativecommons.org/licenses/by/3.0/deed.en_US Creative Commons Attribution 3.0 Unported License
+ */
+-->
+<ruleset name="Project">
+    <rule ref="PEAR">
+        <!-- The copyright is deemed incomplete if it doesn't start with a year, ignore that -->
+        <exclude name="PEAR.Commenting.FileComment.IncompleteCopyright" />
+        <!-- We don't have these -->
+        <exclude name="PEAR.Commenting.FileComment.MissingLicenseTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag" />
+        <!-- Class comments aren't as restrictive -->
+        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingPackageTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag" />
+        <!-- Parameter comments are optional -->
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
+        <!-- Scope indenting varies -->
+        <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
+        <!-- Parameter indenting varies -->
+        <exclude name="PEAR.Functions.FunctionCallSignature.Indent" />        
+        <!-- Magento 1 uses underscores for visibility -->
+        <exclude name="PEAR.NamingConventions.ValidFunctionName.PublicUnderscore" />
+        <exclude name="PEAR.NamingConventions.ValidVariableName.PublicUnderscore" />
+        <!-- Less strictness with function argument alignment -->
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
+    </rule>
+    <rule ref="PSR2">
+        <!-- Magento 1 uses underscores for visibility -->
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
+        <!-- Less strictness with function argument alignment -->
+        <exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
+        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
+        <!-- Multi line extends is okay -->
+        <exclude name="PSR2.Classes.ClassDeclaration.ExtendsLine" />
+        <exclude name="PSR2.Classes.ClassDeclaration.ImplementsLine" />
+        <exclude name="PSR2.Classes.ClassDeclaration.SpaceBeforeComma" />
+    </rule>
+    <!-- Characters per line limit increased to 120 -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value=""/>
+        </properties>
+    </rule>
+    <!-- We allow XYZ_Foo class names (instead of Xyz_Foo) -->
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <severity>0</severity>
+    </rule>
+    <!-- Magento 1 doesn't use namespaces -->
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <severity>0</severity>
+    </rule>
+    <!-- Comment details throughout the document are relaxed -->
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <severity>0</severity>
+    </rule>
+    <!-- Controllers sometimes use require statements -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <severity>0</severity>
+    </rule>
+</ruleset>

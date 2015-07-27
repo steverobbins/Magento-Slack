@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Slack.com Integration
+ *
+ * @category  Steverobbins
+ * @package   Steverobbins_Slack
+ * @author    Steve Robbins <steve@steverobbins.com>
+ * @copyright Copyright 2015 Steve Robbins (http://steverobbins.com)
+ * @license   http://creativecommons.org/licenses/by/3.0/deed.en_US Creative Commons Attribution 3.0 Unported License
+ */
+-->
+<config>
+    <modules>
+        <Steverobbins_Slack>
+            <version>1.0.0</version>
+        </Steverobbins_Slack>
+    </modules>
+    <global>
+        <blocks>
+            <slack>
+                <class>Steverobbins_Slack_Block</class>
+            </slack>
+        </blocks>
+        <helpers>
+            <slack>
+                <class>Steverobbins_Slack_Helper</class>
+            </slack>
+        </helpers>
+        <models>
+            <slack>
+                <class>Steverobbins_Slack_Model</class>
+            </slack>
+        </models>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Steverobbins_Slack before="Mage_Adminhtml">Steverobbins_Slack_Adminhtml</Steverobbins_Slack>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <slack>
+            <settings>
+                <active>0</active>
+                <api_url>https://slack.com/api/</api_url>
+                <channels backend_model="slack/adminhtml_system_config_channels" />
+            </settings>
+        </slack>
+    </default>
+</config>

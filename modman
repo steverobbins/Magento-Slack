@@ -1,0 +1,3 @@
+src/app/code/community/Steverobbins/Slack                            app/code/community/Steverobbins/Slack
+src/app/design/adminhtml/default/default/template/steverobbins/slack app/design/adminhtml/default/default/template/steverobbins/slack
+src/app/etc/modules/Steverobbins_Slack.xml                           app/etc/modules/Steverobbins_Slack.xml

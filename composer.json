@@ -1,0 +1,15 @@
+{
+    "name": "steverobbins/magento-slack",
+    "type": "magento-module",
+    "license": "CC-BY-3.0",
+    "description": "Magento integration with Slack.com",
+    "authors": [
+        {
+            "name":"Steve Robbins",
+            "email":"steve@steverobbins.com"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.*"
+    }
+}
