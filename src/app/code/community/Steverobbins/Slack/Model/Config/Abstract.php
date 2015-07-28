@@ -92,7 +92,6 @@ class Steverobbins_Slack_Model_Config_Abstract extends Varien_Object
     {
         $configPath = $this->getConfigPath($field);
         $scope = $this->getScope();
-        $value = null;
         if (isset($scope['website'])) {
             $value = Mage::app()->getWebsite($scope['website'])
                 ->getConfig($configPath);
