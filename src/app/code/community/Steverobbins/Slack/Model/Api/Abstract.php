@@ -13,6 +13,8 @@
 
 /**
  * Abstract model for Slack api actions
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
 {
@@ -136,22 +138,19 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
         if (is_array($channels)) {
             $channels = array_flip($channels);
         }
-        if (isset($args['channels'])) {
-            if (!is_array($args['channels'])) {
-                $args['channels'] = array($args['channels']);
-            }
-            foreach ($args['channels'] as $key => $channel) {
-                if (isset($channels[$channel])) {
-                    $args['channels'][$key] = $channels[$channel];
-                } else {
-                    unset($args['channels'][$key]);
+        foreach (array('channels', 'channel') as $chKey) {
+            if (isset($args[$chKey])) {
+                if (!is_array($args[$chKey])) {
+                    $args[$chKey] = array($args[$chKey]);
                 }
-            }
-            $args['channels'] = implode(',', $args['channels']);
-        }
-        if (isset($args['channel'])) {
-            if (isset($channels[$args['channel']])) {
-                $args['channel'] = $channels[$args['channel']];
+                foreach ($args[$chKey] as $key => $channel) {
+                    if (isset($channels[$channel])) {
+                        $args[$chKey][$key] = $channels[$channel];
+                    } else {
+                        unset($args[$chKey][$key]);
+                    }
+                }
+                $args['channels'] = implode(',', $args['channels']);
             }
         }
         return $args;
