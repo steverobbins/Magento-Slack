@@ -27,15 +27,13 @@ class Steverobbins_Slack_Model_Api_Chat extends Steverobbins_Slack_Model_Api_Abs
     /**
      * Add username if not supplied
      *
-     * @param array $args
-     *
      * @return Steverobbins_Slack_Model_Api_Chat
      */
-    public function postMessage(array $args = array())
+    public function postMessage()
     {
-        if (!isset($args['username'])) {
-            $args['username'] = Mage::getSingleton('slack/config_settings')->getBotName();
+        if (!$this->hasUsername()) {
+            $this->setUsername(Mage::getSingleton('slack/config_settings')->getBotName());
         }
-        return parent::postMessage($args);
+        return parent::postMessage();
     }
 }

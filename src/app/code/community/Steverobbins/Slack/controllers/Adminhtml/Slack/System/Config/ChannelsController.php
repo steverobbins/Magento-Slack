@@ -18,6 +18,16 @@ class Steverobbins_Slack_Adminhtml_Slack_System_Config_ChannelsController
     extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * ACL
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return true;
+    }
+
+    /**
      * Get channel listing from API
      *
      * @return void

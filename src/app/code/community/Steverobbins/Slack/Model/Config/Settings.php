@@ -35,6 +35,16 @@ class Steverobbins_Slack_Model_Config_Settings extends Steverobbins_Slack_Model_
     }
 
     /**
+     * Determines if the debug mode is one
+     *
+     * @return boolean
+     */
+    public function isDebug()
+    {
+        return $this->getConfigFlag('debug');
+    }
+
+    /**
      * Gets the API url
      *
      * @return string

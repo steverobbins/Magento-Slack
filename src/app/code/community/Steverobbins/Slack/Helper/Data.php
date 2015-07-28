@@ -16,5 +16,18 @@
  */
 class Steverobbins_Slack_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
+    /**
+     * Logs to file
+     *
+     * @param mixed $message
+     *
+     * @return Steverobbins_Slack_Helper_Data
+     */
+    public function log($message)
+    {
+        if (Mage::getSingleton('slack/config_settings')->isDebug()) {
+            Mage::log($message, null, 'slack.log');
+        }
+        return $this;
+    }
 }

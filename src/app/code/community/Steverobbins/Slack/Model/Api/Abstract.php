@@ -28,8 +28,7 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
      */
     protected function _post($action, array $fields)
     {
-        $fields['token'] = Mage::getSingleton('slack/config_settings')->getToken();
-        Mage::log($fields, null, 'slack.log');
+        Mage::helper('slack')->log($fields, null, 'slack.log');
         return $this->_request(
             Mage::getSingleton('slack/config_settings')->getApiUrl() . $this->getMethod() . '.' . $action,
             array(
@@ -49,7 +48,7 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
      */
     protected function _request($url, array $options = array())
     {
-        Mage::log($url, null, 'slack.log');
+        Mage::helper('slack')->log($url, null, 'slack.log');
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -65,7 +64,7 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
         $result->header = $this->_parseHeader(substr($response, 0, $headerSize));
         $responseBody = substr($response, $headerSize);
         $result->body = Mage::helper('core')->jsonDecode($responseBody);
-        Mage::log($result, null, 'slack.log');
+        Mage::helper('slack')->log($result, null, 'slack.log');
         return $result;
     }
 
@@ -110,8 +109,8 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
         if (!Mage::getSingleton('slack/config_settings')->isActive()) {
             return;
         }
-        $args = $this->_prepareChannels($args);
-        $result = $this->_post($name, $args);
+        $params = $this->_prepareParams();
+        $result = $this->_post($name, $params);
         if ($result->code != 200) {
             Mage::throwException('Failed to connect to Slack API');
         } elseif (!$result->body['ok']) {
@@ -125,34 +124,51 @@ class Steverobbins_Slack_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Convert channel name into identifier
-     *
-     * @param array $args
+     * Prepare parameters to send to API
      *
      * @return array
      */
-    protected function _prepareChannels($args)
+    protected function _prepareParams()
     {
-        $args = isset($args[0]) ? $args[0] : array();
-        $channels = Mage::getSingleton('slack/config_settings')->getChannels();
-        if (is_array($channels)) {
-            $channels = array_flip($channels);
+        $this->setToken(Mage::getSingleton('slack/config_settings')->getToken());
+        $this->_convertChannels();
+        $params = $this->getData();
+        unset($params['method']);
+        return $params;
+    }
+
+    /**
+     * Convert channel name into identifier
+     *
+     * @return void
+     */
+    protected function _convertChannels()
+    {
+        $channelConfig = Mage::getSingleton('slack/config_settings')->getChannels();
+        if (is_array($channelConfig)) {
+            $channelConfig = array_flip($channelConfig);
         }
-        foreach (array('channels', 'channel') as $chKey) {
-            if (isset($args[$chKey])) {
-                if (!is_array($args[$chKey])) {
-                    $args[$chKey] = array($args[$chKey]);
+        if ($this->hasChannels()) {
+            $channels = $this->getChannels();
+            if (!is_array($channels)) {
+                $channels = array($channels);
+            }
+            foreach ($channels as $key => $channel) {
+                if (isset($channelConfig[$channel])) {
+                    $channels[$key] = $channelConfig[$channel];
+                } else {
+                    unset($channels[$key]);
                 }
-                foreach ($args[$chKey] as $key => $channel) {
-                    if (isset($channels[$channel])) {
-                        $args[$chKey][$key] = $channels[$channel];
-                    } else {
-                        unset($args[$chKey][$key]);
-                    }
-                }
-                $args['channels'] = implode(',', $args['channels']);
+            }
+            $this->setChannels($channels);
+        }
+        if ($this->hasChannel()) {
+            $channel = $this->getChannel();
+            if (isset($channelConfig[$channel])) {
+                $this->setChannel($channelConfig[$channel]);
+            } else {
+                $this->unsChannel();
             }
         }
-        return $args;
     }
 }

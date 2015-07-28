@@ -49,6 +49,7 @@
             <settings>
                 <active>0</active>
                 <api_url>https://slack.com/api/</api_url>
+                <token backend_model="adminhtml/system_config_backend_encrypted" />
                 <channels backend_model="slack/adminhtml_system_config_channels" />
             </settings>
         </slack>
