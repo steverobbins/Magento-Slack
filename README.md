@@ -4,7 +4,7 @@ Magento Slack Integration
 [![Build Status](https://travis-ci.org/steverobbins/Magento-Slack.svg?branch=master)](https://travis-ci.org/steverobbins/Magento-Slack)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/Magento-Slack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/Magento-Slack/?branch=master)
 
-\*Note: This module doesn't do much on it's own.  It's just an api wrapper for integrations your write.  You can use it chat to your Slack channel when: an order is placed, and exception is logged, an account is created, etc.
+\*Note: This module doesn't do much on it's own.  It's just an api wrapper for integrations you write.  You can use it chat to your Slack channel when: an order is placed, and exception is logged, an account is created, etc.
 
 # Config
 
